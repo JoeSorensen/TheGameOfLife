@@ -2,6 +2,8 @@ function Flip (y, x) {
     Vue.set(vm.board[y], x, !vm.board[y][x])
 }
 
+let boardCopy;
+
 const cell = Vue.component("cell", {
     props: ["val", "y", "x"],
     template: '<div v-on:click="this.Flip(y, x)" v-if="val === true" style="width:50px; height:50px; background: yellow; display: inline-block"></div>' +
@@ -20,6 +22,7 @@ var vm = new Vue({
     },
     methods: {
         NextStep: function() {
+            boardCopy = JSON.parse(JSON.stringify(this.board));
             for (i = 0; i < this.board.length; i++) {
                 for (j = 0; j < this.board[i].length; j++) {
                     const isLive = this.board[i][j];
@@ -52,10 +55,11 @@ var vm = new Vue({
                     }*/
                 }
             }
+            this.board = JSON.parse(JSON.stringify(boardCopy));
         },
 
         flipState: function(y,x){
-            Vue.set(this.board[y], x, !this.board[y][x]);
+            boardCopy[i][j] = !boardCopy[i][j];
         },
 
         /**
